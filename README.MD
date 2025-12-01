@@ -33,10 +33,11 @@ By the end of this session, learners will:
 
 ### 🔗 Session Resources
 
-| Resource           | Link                              | Description        |
-|:-------------------|:----------------------------------|:-------------------|
-| Azure AI Search RAG | https://aka.ms/ragchat  | E2E open-source solution implementing hybrid search and agentic retrieval |
-| PostgreSQL e-Shop  | https://aka.ms/agentic-shop​ | E2E open-source solution showcasing graph-based retrieval and agentic personalization using Azure Database for PostgreSQL |
+| Resource             | Link                          | Description        |
+|:---------------------|:------------------------------|:-------------------|
+| Azure AI Search RAG  | https://aka.ms/ragchat        | E2E open-source solution implementing hybrid search and agentic retrieval |
+| PostgreSQL e-Shop    | https://aka.ms/agentic-shop   | E2E open-source solution showcasing graph-based retrieval and agentic personalization using Azure Database for PostgreSQL |
+
 
 ### 📚 Continued Learning Resources
 
