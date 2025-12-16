@@ -1,12 +1,12 @@
-## How to deliver this session
+# How to deliver this session
 
 🥇 Thanks for delivering this session!
 
 Prior to delivering the workshop please:
 
-1.  Read this document and all included resources included in their entirety.
-2.  Watch the video presentation
-3.  Ask questions of the content leads! We're here to help!
+1. Read this document and all included resources included in their entirety.
+2. Watch the video presentation
+3. Ask questions of the content leads! We're here to help!
 
 ## Presentation
 
@@ -39,7 +39,7 @@ There are six demos in the presentation, from three different samples:
 
 ### Setup
 
-To be able to show the demos yourself, you will need to set up the three codebases.
+To be able to show the demos yourself, you will need to set up the three codebases. All three codebases are included as submodules in the `src` folder of this repo. Make sure you've cloned the repo with `--recurse-submodules` or run `git submodule update --init --recursive` after cloning.
 
 #### Zava products database
 
@@ -49,33 +49,39 @@ To be able to show the demos yourself, you will need to set up the three codebas
     cd ai-tour-26-zava-diy-dataset-plus-mcp
     ```
 
-2. Deploy the necessary infrastructure:
+2. Login with your deployment tenant:
 
     ```bash
-    cd infra && deploy.sh
+    az login --tenant <your-deployment-tenant-id>
     ```
 
-3. Initialize the database with seed product data:
+3. Deploy the necessary infrastructure:
+
+    ```bash
+    cd infra && ./deploy.sh
+    ```
+
+4. Initialize the database with seed product data:
 
     ```bash
     ./scripts/init-db.sh
     ```
 
-4. Setup the Python environment and install dependencies:
+5. Setup the Python environment and install dependencies:
 
     ```bash
     python -m venv .venv
     source .venv/bin/activate
-    pip install -r requirements.txt
+    pip install -r requirements-dev.txt
     ```
 
-5. Configure the Azure AI extensions for Azure Database for PostgreSQL:
+6. Configure the Azure AI extensions for Azure Database for PostgreSQL:
 
-    ```
+    ```bash
     python ./scripts/setup_azure_ai.py
     ```
 
-6. Test that each script runs successfully:
+7. Test that each script runs successfully:
 
     ```bash
     python ./scripts/keyword_search.py
@@ -84,7 +90,7 @@ To be able to show the demos yourself, you will need to set up the three codebas
     python ./scripts/hybrid_ranker_search.py
     ```
 
-7. Install the PostgreSQL extension for VS Code and create a new server connection for the provisioned Azure database. Navigate to zava database, open the retail schema, and use the context menu to visualize the schema.
+8. Install the PostgreSQL extension for VS Code and create a new server connection for the provisioned Azure PostgreSQL server. Navigate to zava database, open the retail schema, and use the context menu to visualize the schema.
 
 #### Agentic Shop
 
@@ -100,13 +106,17 @@ To be able to show the demos yourself, you will need to set up the three codebas
     azd env new
     ```
 
-2. Provision the Azure resources and deploy the app:
+3. Provision the Azure resources and deploy the app:
 
     ```bash
     azd up
     ```
 
-3. Navigate to the deployed frontend endpoint and confirm that the application is running. Test the search for "headphones with good reviews about noise cancellation" works.
+    * When prompted to select a location, select one close to you.
+    * When prompted to pick a resource group, create a new one.
+    * When prompted whether you want to deploy container apps, say yes.
+
+4. Navigate to the deployed frontend endpoint and confirm that the application is running. Test the search for "headphones with good reviews about noise cancellation" works.
 
 #### RAG on AI Search
 
@@ -122,26 +132,36 @@ To be able to show the demos yourself, you will need to set up the three codebas
     azd env new
     ```
 
-3. Enable agentic retreival:
+3. Enable agentic retrieval, set default agentic reasoning effort, and enable web source:
 
     ```bash
-    azd env set USE_AGENTIC_RETRIEVAL true
+    azd env set USE_AGENTIC_KNOWLEDGEBASE true
+    azd env set AZURE_SEARCH_KNOWLEDGEBASE_RETRIEVAL_REASONING_EFFORT medium
+    azd env set USE_WEB_SOURCE true
     ```
 
-4. Provision the Azure resources and deploy the app:
+    You can also choose to enable the Sharepoint source, but then that requires enabling user login, a longer process which may not be feasible on all demo tenants.
+
+4. Copy all the files from the `session-delivery-resources/zava-data` folder into the `data` folder of the azure-search-openai-demo repo:
+
+    ```bash
+    cp -r ../session-delivery-resources/zava-data/* ./data/
+    ```
+
+5. Provision the Azure resources and deploy the app:
 
     ```bash
     azd up
     ```
 
-5. Navigate to the deployed endpoint and confirm the app is working. Test the question "How do expectations differ for Manager of Product Management vs Senior Manager of PM?"
+6. Navigate to the deployed endpoint and confirm the app is working. Test the question "Explain how to paint my house most efficiently. Then give me a list of the Zava products and prices for each supply"
 
 ### Video recordings
 
 If you'd like, there are videos available for each demo. These videos have audio, which you can choose to mute and talk over.
 
-| Demo 	                  | Duration | Video - Audio  |
---------------------------|----------|----------------|
+| Demo                    | Duration | Video - Audio  |
+| ------------------------|----------|----------------|
 |  1 - Keyword Search     | 3:35     | [aka.ms/AAxryur](https://aka.ms/AAxryur) |
 |  2 - Vector Search      | 3:21     | [aka.ms/AAxs6f8](https://aka.ms/AAxs6f8) |
 |  3 - RRF Search         | 1:31     | [aka.ms/AAxs6f9](https://aka.ms/AAxs6f9) |
