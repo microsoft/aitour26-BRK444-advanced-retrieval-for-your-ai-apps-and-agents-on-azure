@@ -90,7 +90,20 @@ To be able to show the demos yourself, you will need to set up the three codebas
     python ./scripts/hybrid_ranker_search.py
     ```
 
-8. Install the PostgreSQL extension for VS Code and create a new server connection for the provisioned Azure PostgreSQL server. Navigate to zava database, open the retail schema, and use the context menu to visualize the schema.
+8. Install the PostgreSQL extension for VS Code and create a new server connection for the provisioned Azure PostgreSQL server:
+
+    * Click the PostgreSQL incon in the sidebar
+    * Click "+ Add Connection"
+    * Fill in the connection details from your .env
+      * Server name: POSTGRES_SERVER_FQDN
+      * Username: POSTGRES_SERVER_USERNAME
+      * Password: create a temporary one with
+        * `az account get-access-token --resource https://ossrdbms-aad.database.windows.net --query accessToken -o tsv`
+      * Database name: zava
+      * Connection name: zava 
+    * Click "Save and Connect"
+
+Navigate to zava database, open the retail schema, and use the context menu to visualize the schema.
 
 #### Agentic Shop
 
@@ -100,9 +113,10 @@ To be able to show the demos yourself, you will need to set up the three codebas
     cd postgres-agentic-shop
     ```
 
-2. Create a new azd environment:
+2. Log into azd and create a new azd environment:
 
     ```bash
+    azd auth login
     azd env new
     ```
 
@@ -142,10 +156,10 @@ To be able to show the demos yourself, you will need to set up the three codebas
 
     You can also choose to enable the Sharepoint source, but then that requires enabling user login, a longer process which may not be feasible on all demo tenants.
 
-4. Copy all the files from the `session-delivery-resources/zava-data` folder into the `data` folder of the azure-search-openai-demo repo:
+4. Copy all the files from the `src/zava-data` folder into the `data` folder of the azure-search-openai-demo repo:
 
     ```bash
-    cp -r ../session-delivery-resources/zava-data/* ./data/
+    cp -r ../src/zava-data/* ./data/
     ```
 
 5. Provision the Azure resources and deploy the app:
